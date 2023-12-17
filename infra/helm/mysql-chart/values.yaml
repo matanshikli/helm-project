@@ -1,0 +1,20 @@
+image:
+  repository: mysql
+  tag: "latest"
+  pullPolicy: IfNotPresent
+environment:
+  MYSQL_ROOT_PASSWORD: ""
+  MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+  MYSQL_USER: "petclinic"
+  MYSQL_PASSWORD: "petclinic"
+  MYSQL_DATABASE: "petclinic"
+service:
+  type: ClusterIP
+  ports:
+    - port: 3306
+      targetPort: 3306
+deployment:
+  name: mysql-db-deployment
+  labels:
+    app: mysql-db
+

@@ -1,0 +1,13 @@
+image:
+  repository: matanshikli/jb-java
+  tag: "latest"
+  pullPolicy: Always
+service:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 8080
+deployment:
+  name: java-app-deployment
+  labels:
+    app: java-app
