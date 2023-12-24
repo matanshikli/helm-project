@@ -2,13 +2,18 @@ job('build-and-push-docker-image') {
     scm {
         git {
             remote {
-                url('https://github.com/matanshikli/helm-project') // Change to your repository URL
+                url('https://github.com/matanshikli/helm-project') 
             }
-            branches('*/main') // Branch to build from
+            branches('*/main') 
+        }
+    }
+    wrappers {
+        credentialsBinding {
+            usernamePassword('DOCKER_USERNAME', 'DOCKER_PASSWORD', 'DOCKERHUB_CREDENTIALS_ID')
         }
     }
     steps {
-        // Step to build the Docker image
+        // Build Docker
         shell('''
             #!/bin/bash
             set -e
@@ -16,11 +21,11 @@ job('build-and-push-docker-image') {
             docker build -t \$dockerImage .
         ''')
 
-        // Step to push the Docker image
+        // Push Docker 
         shell('''
             #!/bin/bash
             set -e
-            docker login -u your-dockerhub-username -p \$(withCredentials([\$class: 'UsernamePasswordMultiBinding', credentialsId: 'DOCKERHUB_CREDENTIALS_ID', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']) { echo \$PASSWORD })
+            docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
             docker push matanshikli/jb-java:\${BUILD_NUMBER}
             docker tag matanshikli/jb-java:\${BUILD_NUMBER} matanshikli/jb-java:latest
             docker push matanshikli/jb-java:latest
@@ -28,5 +33,4 @@ job('build-and-push-docker-image') {
         ''')
     }
 }
-
 queue('build-and-push-docker-image')
