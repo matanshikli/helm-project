@@ -1,9 +1,7 @@
 #  HELM project
 
 
-### requriment:
-
-Most of the files are in infra repo, there is 2 options to set the values to the mysql deploy:
+Most of the files for the solution are in infra repo, there is 2 options to set the values to the mysql deploy:
 
 1. configmap (kubectl apply -f infra/k8s/configmap.yaml)
 2. helm temaplate that will take the values from values.yaml and create config map. 
